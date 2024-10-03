@@ -54,5 +54,5 @@ def convert_all_folders(base_directory, output_directory):
 
 # Example usage: update these paths as needed
 base_directory = "/Users/mohammedalqadda/Senior Project Pics"  # Update this path to your base directory
-output_directory = "/Users/mohammedalqadda/PlantCare/PlantCareDataset" # Update to where you want the JPEGs saved
+output_directory = "/Users/mohammedalqadda/PlantCare/H2J Data" # Update to where you want the JPEGs saved
 convert_all_folders(base_directory, output_directory)
