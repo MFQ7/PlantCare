@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Care Firebase Predictions</title>
+
+    <!-- Firebase SDK for Firebase Realtime Database (v8) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Predictions Data</h1>
+    <table id="predictionsTable">
+        <thead>
+            <tr>
+                <th>Moisture</th>
+                <th>Position</th>
+                <th>Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAeKB3BtG6AHbQ0KymGHuhjJbVCHadxv28",
+            authDomain: "plantcare-5de83.firebaseapp.com",
+            databaseURL: "https://plantcare-5de83-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "plantcare-5de83",
+            storageBucket: "plantcare-5de83.appspot.com",
+            messagingSenderId: "346549534845",
+            appId: "1:346549534845:web:6f37e1d27d528d4e19b114"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Reference to the 'predictions' node in the database
+        const ref = firebase.database().ref('predictions');
+
+        // Function to display data in the table
+        function displayData(snapshot) {
+            const tableBody = document.querySelector('#predictionsTable tbody');
+            tableBody.innerHTML = '';  // Clear existing rows
+
+            if (!snapshot.exists()) {
+                console.log("No data found in the 'predictions' node.");
+                return;
+            }
+
+            console.log("Data received:", snapshot.val());
+
+            snapshot.forEach(childSnapshot => {
+                const data = childSnapshot.val();
+                console.log("Data for this entry:", data);  // Log each prediction entry
+                const row = `
+                    <tr>
+                        <td>${data.moisture}</td>
+                        <td>${data.position}</td>
+                        <td>${data.prediction}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Fetch the data from Firebase
+        ref.on('value', displayData, (error) => {
+            console.error("Error fetching data from Firebase:", error);
+        });
+    </script>
+</body>
+</html>
